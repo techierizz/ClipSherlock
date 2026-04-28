@@ -3,9 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <style>
+html, body {
+    width: 100%;
+    height: 100%;
+    background: #02050d !important;
+    overflow: hidden;
+}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#02050d;font-family:'Courier New',monospace}
-#wrap{position:relative;width:100%;max-width:780px;margin:0 auto;padding:14px}
+#wrap{position:relative;width:100%;height: 100%;margin:0 auto;padding:14px}
 canvas{display:block;width:100%;border-radius:8px}
 #hud{position:absolute;top:22px;left:22px;right:22px;pointer-events:none;display:flex;justify-content:space-between}
 .hud-badge{font-size:9px;letter-spacing:3px;color:rgba(0,220,255,0.55);border:1px solid rgba(0,220,255,0.2);padding:4px 10px;border-radius:2px;text-transform:uppercase;background:rgba(2,5,13,0.7)}
@@ -38,7 +44,7 @@ canvas{display:block;width:100%;border-radius:8px}
 <div id="wrap">
   <button id="scan-btn" onclick="startScan()">⚡ INITIATE GEMINI SCAN</button>
   <div style="position:relative">
-    <canvas id="c" width="760" height="380"></canvas>
+    <canvas id="c"></canvas>
     <div id="hud">
       <div class="hud-badge">MEDIA ASSET // NFL_SB58</div>
       <div class="hud-badge">GEMINI 2.0 // VERTEX AI</div>
@@ -78,6 +84,13 @@ const btnEl=document.getElementById('scan-btn');
 const resEl=document.getElementById('results');
 
 const STEPS=['FRAME EXTRACTION — 4 FPS','GEMINI VISION INITIALIZING…','LOGO & WATERMARK DETECTION…','VERTEX AI EMBEDDING ACTIVE…','PLATFORM CRAWLER — YT-DLP…','COSINE SIMILARITY MATCHING…','ANOMALY CLASSIFICATION…','BLOCKCHAIN LEDGER VERIFY…'];
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
 
 function lerp(a,b,t){return a+(b-a)*t}
 function easeOut(t){return 1-Math.pow(1-t,3)}
