@@ -70,9 +70,9 @@ canvas{display:block;width:100%;border-radius:8px}
 <script>
 const canvas=document.getElementById('c');
 const ctx=canvas.getContext('2d');
-const W=canvas.width,H=canvas.height;
-const SRC={x:W*0.12,y:H*0.5};
-const DST={x:W*0.88,y:H*0.5};
+let W=canvas.width,H=canvas.height;
+let SRC={x:W*0.12,y:H*0.5};
+let DST={x:W*0.88,y:H*0.5};
 
 let neurons=[],bgParticles=[],raf,t0=0,scanRunning=false;
 let pulseRings=[],dataStreams=[],hexPulse=0;
@@ -88,6 +88,12 @@ const STEPS=['FRAME EXTRACTION — 4 FPS','GEMINI VISION INITIALIZING…','LOGO 
 function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+
+    W = canvas.width;
+    H = canvas.height;
+
+    SRC = {x: W * 0.12, y: H * 0.5};
+    DST = {x: W * 0.88, y: H * 0.5};
 }
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
