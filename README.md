@@ -29,15 +29,19 @@ It uses multimodal AI fingerprinting (video + images + reasoning) to identify ev
 📤 Asset Authentication
 Upload official media
 Generate unique fingerprints (video + images)
+
 🔍 AI-Based Detection
 Multimodal AI analysis (Gemini-ready architecture)
 Detects edited, cropped, or altered clips
+
 ⚡ Real-Time Monitoring
 Firestore streaming alerts
 Confidence scores + AI explanations
+
 🌐 Propagation Intelligence
 Track how content spreads across platforms
 Visualized via graphs + geo heatmaps
+
 🧾 Action Engine
 Automated takedown notice generation
 Risk-based prioritization
@@ -46,20 +50,30 @@ Risk-based prioritization
 
 🚀 Key Features
 ✅ Multimodal AI fingerprinting (video + images)
+
 ✅ Detection of modified/edited content
+
 ✅ Real-time alerts with AI explanations
+
 ✅ Propagation tracking (graphs + maps)
+
 ✅ Automated takedown system
+
 ✅ Scalable cloud architecture
+
 ✅ Secure authentication (Firebase)
+
 ✅ Interactive dashboard UI
 
 ---
 
 🆚 What Makes It Different?
 🔥 Goes beyond traditional hashing → detects derived content
+
 🧠 Uses AI reasoning, not just matching
+
 🌐 Tracks content spread, not just detection
+
 ⚡ Real-time intelligence instead of manual monitoring
 
 ---
@@ -82,15 +96,13 @@ Dashboard + Visualization
 ---
 
 🛠️ Tech Stack
-🎯 Frontend
-Streamlit (Web)
-☁️ Backend & Cloud
-Firebase Authentication
-Firestore (real-time database)
-Vercel (deployment)
-🤖 AI Layer
-Gemini API (design-ready)
-📊 Use Cases
+🎯 Frontend - Streamlit (Web)
+
+☁️ Backend & Cloud - Firebase Authentication , Firestore (real-time database) , Vercel (deployment)
+
+🤖 AI Layer - Gemini API (design-ready)
+
+📊 Use Cases : 
 Sports leagues (NFL, FIFA, IPL)
 Broadcasting companies
 Athlete content protection (NIL rights)
@@ -101,15 +113,25 @@ and wide sources of sports media
 
 📈 Impact
 ⚡ 90% faster detection of unauthorized content
+
 💰 Reduced revenue loss from piracy
+
 🌍 Real-time global visibility of media misuse
+
 🔮 Future Enhancements
+
 🔗 Blockchain-based watermarking
+
 📡 Live stream monitoring (WebRTC)
+
 🤖 Fine-tuned sports AI models
+
 📊 Predictive piracy analytics
+
 📱 Dedicated mobile app
+
 🧠 Offline AI (Gemma models)
+
 🛡️ Athlete brand/NIL protection
 
 ---
