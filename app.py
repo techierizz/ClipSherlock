@@ -642,7 +642,7 @@ elif st.session_state.page == "scan":
                 st.error("Please upload a media file first.")
             else:
                 import streamlit.components.v1 as components
-                with open(r"D:\Hackathon\stream\gemini_ultra_scan_prev_fixed (1).html", "r", encoding="utf-8") as f:
+                with open(r"scan_ui.html", "r", encoding="utf-8") as f:
                     html_data = f.read()
                 
                 # Make background transparent
@@ -665,7 +665,7 @@ elif st.session_state.page == "scan":
         else:
             # Show static placeholder animation when not running
             import streamlit.components.v1 as components
-            with open(r"D:\Hackathon\stream\gemini_ultra_scan_prev_fixed (1).html", "r", encoding="utf-8") as f:
+            with open(r"scan_ui.html", "r", encoding="utf-8") as f:
                 html_data = f.read()
             html_data = html_data.replace("body{background:#02050d;", "body{background:transparent;")
             components.html(html_data, height=450, scrolling=True)
@@ -997,7 +997,7 @@ elif st.session_state.page == "auto_browser":
             else:
                 # Step 2: Show HTML Animation (simulating scanning)
                 import streamlit.components.v1 as components
-                with open(r"D:\Hackathon\stream\gemini_ultra_scan_prev_fixed (1).html", "r", encoding="utf-8") as f:
+                with open(r"scan_ui.html", "r", encoding="utf-8") as f:
                     html_data = f.read()
                 html_data = html_data.replace("body{background:#02050d;", "body{background:transparent;")
                 components.html(html_data, height=450, scrolling=True)
@@ -1020,7 +1020,7 @@ elif st.session_state.page == "auto_browser":
     else:
         # Default state - just show the animation
         import streamlit.components.v1 as components
-        with open(r"D:\Hackathon\stream\gemini_ultra_scan_prev_fixed (1).html", "r", encoding="utf-8") as f:
+        with open(r"scan_ui.html", "r", encoding="utf-8") as f:
             html_data = f.read()
         html_data = html_data.replace("body{background:#02050d;", "body{background:transparent;")
         components.html(html_data, height=800, scrolling=True)
