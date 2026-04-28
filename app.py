@@ -650,7 +650,7 @@ elif st.session_state.page == "scan":
                 
                 # Make background transparent
                 html_data = html_data.replace("body{background:#02050d;", "body{background:transparent;")
-                components.html(html_data, height=450, scrolling=True)
+                components.html(html_data, height=450, scrolling=False)
                 
                 with st.spinner("Analyzing media with Gemini 1.5 Flash..."):
                     mime_type = uploaded.type
@@ -671,7 +671,7 @@ elif st.session_state.page == "scan":
             with open(r"scan_ui.html", "r", encoding="utf-8") as f:
                 html_data = f.read()
             html_data = html_data.replace("body{background:#02050d;", "body{background:transparent;")
-            components.html(html_data, height=450, scrolling=True)
+            components.html(html_data, height=450, scrolling=False)
 
         st.markdown("</div>", unsafe_allow_html=True)
 
@@ -1003,7 +1003,7 @@ elif st.session_state.page == "auto_browser":
                 with open(r"scan_ui.html", "r", encoding="utf-8") as f:
                     html_data = f.read()
                 html_data = html_data.replace("body{background:#02050d;", "body{background:transparent;")
-                components.html(html_data, height=450, scrolling=True)
+                components.html(html_data, height=450, scrolling=False)
                 
                 # Step 3: Analyze with Gemini
                 st.info("📡 Streams located. Sending payloads to Gemini AI for Threat Intelligence evaluation...")
@@ -1026,6 +1026,6 @@ elif st.session_state.page == "auto_browser":
         with open(r"scan_ui.html", "r", encoding="utf-8") as f:
             html_data = f.read()
         html_data = html_data.replace("body{background:#02050d;", "body{background:transparent;")
-        components.html(html_data, height=800, scrolling=True)
+        components.html(html_data, height=800, scrolling=False)
         
     st.markdown("</div>", unsafe_allow_html=True)
