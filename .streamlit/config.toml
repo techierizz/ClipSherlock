@@ -1,6 +1,10 @@
 [server]
 headless = true
+address = "0.0.0.0"
+enableCORS = false
+enableXsrfProtection = false
 enableWebsocketCompression = false
+
 # Increases the limit for components and payloads
 
 [browser]
