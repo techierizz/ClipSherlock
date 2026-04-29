@@ -97,8 +97,9 @@ def run():
                 tab.goto(site["url"], wait_until="domcontentloaded", timeout=8000)
                 para = tab.wait_for_selector("p", timeout=2000)
                 if para:
-                    snippet = f"Site blocked."
-            except Exception:
+                    snippet = para.inner_text()[:300]
+            except Exception as e:
+                snippet = f"Site blocked."
                 pass
 
             scraped_data.append({
