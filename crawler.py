@@ -36,8 +36,14 @@ def get_piracy_urls_from_gemini():
         resp = requests.post(url, json=payload, timeout=30)
         resp.raise_for_status()
         text = resp.json()["candidates"][0]["content"]["parts"][0]["text"]
-        text = text.replace("```json", "").replace("```", "").strip()
-        return json.loads(text)
+        start = text.find('[')
+        end = text.rfind(']') + 1
+        if start != -1 and end != -1:
+            return json.loads(text[start:end])
+        else:
+            raise ValueError("No JSON array found in Gemini response.")
+        # text = text.replace("```json", "").replace("```", "").strip()
+        # return json.loads(text)
     except Exception as e:
         # Fallback list of publicly documented piracy sites (per RIAA/MPAA reports)
         return [
