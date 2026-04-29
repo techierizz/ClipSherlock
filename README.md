@@ -156,7 +156,9 @@ and wide sources of sports media
 
 🌐 MVP / Prototype: https://clipsherlock.onrender.com/
 
-    **Note: For the most stable and optimal performance—specifically for the autonomous AI crawling and real-time monitoring features—we recommend using this  Streamlit Cloud deployment.**
+    Note: For the most stable and optimal performance—specifically for the autonomous AI crawling and real-time monitoring features—we recommend using this  Streamlit Cloud deployment : 
+
+🌐 Steamlit CLoud Link : https://clipsherlock-n1.streamlit.app/
 
 ---
 
