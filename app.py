@@ -1016,7 +1016,7 @@ elif st.session_state.page == "auto_browser":
                     html_data = f.read()
                 html_data = html_data.replace("body{background:#02050d;", "body{background:transparent;")
                 html_data = html_data.replace("</body>", "<script>setTimeout(startScan, 300);</script></body>")
-                components.html(html_data, height=450, scrolling=False)
+                components.html(html_data, height=800, scrolling=False)
                 
                 # Step 3: Analyze with Gemini
                 st.info("📡 Streams located. Sending payloads to Gemini AI for Threat Intelligence evaluation...")
