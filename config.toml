@@ -1,7 +1,0 @@
-[server]
-# Sends a ping to the browser more frequently to keep the connection open
-enableWebsocketCompression = false
-
-[browser]
-# Forces Streamlit to wait longer before assuming the server died
-gatherUsageStats = false
