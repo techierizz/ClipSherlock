@@ -47,63 +47,24 @@ def analyze_with_gemini(file_bytes, mime_type):
         return json.dumps({"error": str(e), "details": response.text if 'response' in locals() else ""})
 
 def run_playwright_search():
-    import subprocess, sys, os, time
-    import streamlit as st
-    from streamlit.runtime.scriptrunner import get_script_run_ctx
+    import subprocess, sys, os
     
     crawler_path = os.path.join(os.path.dirname(__file__), "crawler.py")
     
     try:
         env = os.environ.copy()
         env["PLAYWRIGHT_BROWSERS_PATH"] = "/opt/render/project/.playwright"
-        # result = subprocess.run(
-        #     [sys.executable, crawler_path],
-        #     capture_output=True,
-        #     text=True,
-        #     timeout=120,
-        #     env=env 
-        # )
-
-        process = subprocess.Popen(
+        result = subprocess.run(
             [sys.executable, crawler_path],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
             text=True,
+            timeout=120,
             env=env 
         )
 
-        status_container = st.empty()
-        start_time = time.time()
-
-        while process.poll() is None:  # While the crawler is still running
-            elapsed = int(time.time() - start_time)
-
-            if get_script_run_ctx() is None:
-                break
-            # Update the UI every second to keep the WebSocket active
-            try:
-                # FIX 2: Only update the UI every 2 seconds to avoid spamming the WebSocket
-                if elapsed % 2 == 0:
-                    status_container.markdown(f"<div style='color:#5a7a9a; font-family:Share Tech Mono; font-size:0.8rem;'>🤖 Crawler active... {elapsed}s elapsed</div>", unsafe_allow_html=True)
-            except Exception:
-                # Silently catch any mid-reconnect session errors
-                pass
-            # status_container.markdown(f"<div style='color:#5a7a9a; font-family:Share Tech Mono; font-size:0.8rem;'>🤖 Crawler active... {elapsed}s elapsed</div>", unsafe_allow_html=True)
-            time.sleep(1)
-            
-            # Hard timeout to prevent infinite hanging
-            if elapsed > 45:
-                process.kill()
-                status_container.empty()
-                return [{"error": "Crawler forcefully stopped after 45 seconds."}]
-                
-        # Clear the heartbeat text once finished
-        status_container.empty()
-
-        output, errors = process.communicate()
+        output = result.stdout.strip()
         
-        # output = result.stdout.strip()
-        
+     
         # if result.returncode != 0:
         #     error_msg = result.stderr.strip() or result.stdout.strip() or "Unknown subprocess error."
         #     return [{"error": error_msg}]
