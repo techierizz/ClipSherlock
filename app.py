@@ -54,22 +54,50 @@ def run_playwright_search():
     try:
         env = os.environ.copy()
         env["PLAYWRIGHT_BROWSERS_PATH"] = "/opt/render/project/.playwright"
-        result = subprocess.run(
+        # result = subprocess.run(
+        #     [sys.executable, crawler_path],
+        #     capture_output=True,
+        #     text=True,
+        #     timeout=120,
+        #     env=env 
+        # )
+
+        process = subprocess.Popen(
             [sys.executable, crawler_path],
-            capture_output=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
             text=True,
-            timeout=120,
             env=env 
         )
+
+        status_container = st.empty()
+        start_time = time.time()
+
+        while process.poll() is None:  # While the crawler is still running
+            elapsed = int(time.time() - start_time)
+            # Update the UI every second to keep the WebSocket active
+            status_container.markdown(f"<div style='color:#5a7a9a; font-family:Share Tech Mono; font-size:0.8rem;'>🤖 Crawler active... {elapsed}s elapsed</div>", unsafe_allow_html=True)
+            time.sleep(1)
+            
+            # Hard timeout to prevent infinite hanging
+            if elapsed > 45:
+                process.kill()
+                status_container.empty()
+                return [{"error": "Crawler forcefully stopped after 45 seconds."}]
+                
+        # Clear the heartbeat text once finished
+        status_container.empty()
+
+        output, errors = process.communicate()
         
-        output = result.stdout.strip()
+        # output = result.stdout.strip()
         
         # if result.returncode != 0:
         #     error_msg = result.stderr.strip() or result.stdout.strip() or "Unknown subprocess error."
         #     return [{"error": error_msg}]
         
-        if not output:
-            return [{"error": "Crawler returned no output. The browser may have been blocked."}]
+        if not output.strip():
+            return [{"error": f"Crawler returned no output. The browser may have been blocked. Errors: {errors[:200]}"}]
         
         # return json.loads(output)
         try:
@@ -81,7 +109,7 @@ def run_playwright_search():
             else:
                 return [{"error": f"Invalid output from crawler: {output[:100]}"}]
         except json.JSONDecodeError as e:
-            return [{"error": f"JSON Parsing Error: {str(e)} \nRaw: {output[:100]}"}]
+            return [{"error": f"JSON Parsing Error: {str(e)} "}]
         
     except subprocess.TimeoutExpired:
         return [{"error": "Crawler timed out after 120 seconds."}]
