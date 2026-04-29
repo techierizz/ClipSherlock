@@ -48,6 +48,7 @@ def analyze_with_gemini(file_bytes, mime_type):
 
 def run_playwright_search():
     import subprocess, sys, os
+    import streamlit as st
     
     crawler_path = os.path.join(os.path.dirname(__file__), "crawler.py")
     
