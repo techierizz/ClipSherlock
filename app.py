@@ -10,7 +10,7 @@ import json
 import os
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
-os.environ["PLAYWRIGHT_BROWSERS_PATH"] = "/opt/render/project/.playwright"
+# os.environ["PLAYWRIGHT_BROWSERS_PATH"] = "/opt/render/project/.playwright"
 load_dotenv()
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
