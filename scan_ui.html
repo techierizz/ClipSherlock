@@ -76,7 +76,6 @@ let DST={x:W*0.88,y:H*0.5};
 
 let neurons=[],bgParticles=[],raf,t0=0,scanRunning=false;
 let pulseRings=[],dataStreams=[],hexPulse=0;
-// source-node alpha — driven by merge progress
 let srcNodeAlpha=1;
 
 const statusEl=document.getElementById('status-bar');
@@ -266,13 +265,12 @@ function drawCentralBeam(phase,elapsed){
   ctx.strokeStyle=grad;ctx.lineWidth=2;ctx.setLineDash([4,10]);ctx.stroke();ctx.setLineDash([]);
 }
 
-// ── SOURCE NODE — uses srcNodeAlpha ──────────────────────────────
 function drawNode_src(x,y,label,sublabel,elapsed,alpha){
   if(alpha<=0)return;
   ctx.globalCompositeOperation='lighter';
   const t=elapsed;
   const[r,g,b]=[255,120,30];
-  // Rings
+    
   [40,28,18].forEach((rad,i)=>{
     const a=alpha*(0.08-i*0.022);
     ctx.beginPath();ctx.arc(x,y,rad,0,Math.PI*2);ctx.fillStyle=`rgba(${r},${g},${b},${a})`;ctx.fill();
@@ -280,7 +278,7 @@ function drawNode_src(x,y,label,sublabel,elapsed,alpha){
   ctx.beginPath();ctx.arc(x,y,16,0,Math.PI*2);ctx.strokeStyle=`rgba(${r},${g},${b},${alpha*0.9})`;ctx.lineWidth=2;ctx.stroke();
   ctx.beginPath();ctx.arc(x,y,22,0,Math.PI*2);ctx.strokeStyle=`rgba(${r},${g},${b},${alpha*0.4})`;ctx.lineWidth=0.8;ctx.stroke();
   ctx.beginPath();ctx.arc(x,y,30,0,Math.PI*2);ctx.strokeStyle=`rgba(${r},${g},${b},${alpha*0.15})`;ctx.lineWidth=0.5;ctx.stroke();
-  // Rotating brackets
+    
   for(let i=0;i<4;i++){
     const a2=Math.PI/2*i+t*0.6;const r1=18,r2=26;
     ctx.beginPath();ctx.moveTo(x+Math.cos(a2)*r1,y+Math.sin(a2)*r1);ctx.lineTo(x+Math.cos(a2)*r2,y+Math.sin(a2)*r2);
@@ -360,12 +358,10 @@ function animate(){
   drawConnections(phase);
   neurons.forEach(n=>{n.update(phase,elapsed);n.draw(phase);});
 
-  // ── Compute srcNodeAlpha from merge progress ──────────────────
   if(phase==='converge'||phase==='flash'||phase==='done'){
     const bornCount=neurons.filter(n=>n.born).length||1;
     const mergedCount=neurons.filter(n=>n.merged).length;
     const pct=mergedCount/bornCount;
-    // fade from 1→0 as pct goes from 0.2 to 0.8
     srcNodeAlpha=clamp(1-(pct-0.2)/0.6, 0, 1);
   } else {
     srcNodeAlpha=Math.min(1,elapsed/0.8);
@@ -375,7 +371,6 @@ function animate(){
   const dstA=(phase==='converge'||phase==='flash'||phase==='done')?Math.min(1,(elapsed-5.8)/1.2):0;
   const dstPulse=(phase==='flash'||phase==='done')?(Math.sin(elapsed*4)+1)/2:0;
 
-  // Draw source with fading alpha; only draw if visible
   drawNode_src(SRC.x,SRC.y,'MEDIA ASSET','NFL SB58',elapsed,srcNodeAlpha);
   drawNode_dst(DST.x,DST.y,'GEMINI AI','VERTEX+BLK',elapsed,dstA,dstPulse);
 
@@ -388,7 +383,6 @@ function animate(){
     ctx.beginPath();ctx.arc(DST.x,DST.y,80+ca*60,0,Math.PI*2);ctx.fillStyle=`rgba(0,200,255,${ca*0.06})`;ctx.fill();
   }
 
-  // Status
   if(phase!=='done'){
     if((phase==='converge')&&Math.random()<0.025&&Date.now()-lastGlitch>600){
       lastGlitch=Date.now();
