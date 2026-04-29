@@ -96,7 +96,7 @@ def analyze_links_with_gemini(scraped_data):
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
     
     prompt = f"""
-    You are a cybersecurity threat intelligence analyst for SportsGuardian AI. 
+    You are a cybersecurity threat intelligence analyst for ClipSherlock. 
     Review the following scraped search results regarding live sports streaming:
     {json.dumps(scraped_data, indent=2)}
     
@@ -130,7 +130,7 @@ def analyze_links_with_gemini(scraped_data):
 
 # ─── PAGE CONFIG ────────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="SportsGuardian AI",
+    page_title="ClipSherlock",
     page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -459,7 +459,7 @@ with st.sidebar:
     st.markdown("""
     <div style='padding:1rem 0.5rem 1.5rem'>
         <div style='font-family:Rajdhani,sans-serif;font-size:1.2rem;font-weight:700;
-                    letter-spacing:3px;color:#00c8ff;'>⚡ SPORTSGUARDIAN</div>
+                    letter-spacing:3px;color:#00c8ff;'>⚡ ClipSherlock</div>
         <div style='font-family:Share Tech Mono,monospace;font-size:0.6rem;
                     color:#5a7a9a;letter-spacing:3px;'>AI PROTECTION SUITE v2.4</div>
     </div>
@@ -499,7 +499,7 @@ st.markdown(f"""
     <div class='brand'>
         <span class='brand-icon'>🛡️</span>
         <div>
-            <div class='brand-title'>SportsGuardian AI</div>
+            <div class='brand-title'>ClipSherlock</div>
             <div class='brand-sub'>Digital Media Protection Platform</div>
         </div>
     </div>
