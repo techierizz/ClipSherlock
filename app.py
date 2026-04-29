@@ -49,7 +49,7 @@ def analyze_with_gemini(file_bytes, mime_type):
 def run_playwright_search():
     import subprocess, sys, os, time
     import streamlit as st
-    # from streamlit.runtime.scriptrunner import get_script_run_ctx
+    from streamlit.runtime.scriptrunner import get_script_run_ctx
     
     crawler_path = os.path.join(os.path.dirname(__file__), "crawler.py")
     
@@ -77,8 +77,18 @@ def run_playwright_search():
 
         while process.poll() is None:  # While the crawler is still running
             elapsed = int(time.time() - start_time)
+
+            if get_script_run_ctx() is None:
+                break
             # Update the UI every second to keep the WebSocket active
-            status_container.markdown(f"<div style='color:#5a7a9a; font-family:Share Tech Mono; font-size:0.8rem;'>🤖 Crawler active... {elapsed}s elapsed</div>", unsafe_allow_html=True)
+            try:
+                # FIX 2: Only update the UI every 2 seconds to avoid spamming the WebSocket
+                if elapsed % 2 == 0:
+                    status_container.markdown(f"<div style='color:#5a7a9a; font-family:Share Tech Mono; font-size:0.8rem;'>🤖 Crawler active... {elapsed}s elapsed</div>", unsafe_allow_html=True)
+            except Exception:
+                # Silently catch any mid-reconnect session errors
+                pass
+            # status_container.markdown(f"<div style='color:#5a7a9a; font-family:Share Tech Mono; font-size:0.8rem;'>🤖 Crawler active... {elapsed}s elapsed</div>", unsafe_allow_html=True)
             time.sleep(1)
             
             # Hard timeout to prevent infinite hanging
@@ -98,7 +108,7 @@ def run_playwright_search():
         #     error_msg = result.stderr.strip() or result.stdout.strip() or "Unknown subprocess error."
         #     return [{"error": error_msg}]
         
-        if not output.strip():
+        if not output or not output.strip():
             return [{"error": f"Crawler returned no output. The browser may have been blocked. Errors: {errors[:200]}"}]
         
         # return json.loads(output)
