@@ -62,15 +62,26 @@ def run_playwright_search():
             env=env 
         )
         
-        if result.returncode != 0:
-            error_msg = result.stderr.strip() or result.stdout.strip() or "Unknown subprocess error."
-            return [{"error": error_msg}]
-        
         output = result.stdout.strip()
+        
+        # if result.returncode != 0:
+        #     error_msg = result.stderr.strip() or result.stdout.strip() or "Unknown subprocess error."
+        #     return [{"error": error_msg}]
+        
         if not output:
             return [{"error": "Crawler returned no output. The browser may have been blocked."}]
         
-        return json.loads(output)
+        # return json.loads(output)
+        try:
+            start_idx = output.find('[')
+            end_idx = output.rfind(']') + 1
+            if start_idx != -1 and end_idx != -1:
+                clean_output = output[start_idx:end_idx]
+                return json.loads(clean_output)
+            else:
+                return [{"error": f"Invalid output from crawler: {output[:100]}"}]
+        except json.JSONDecodeError as e:
+            return [{"error": f"JSON Parsing Error: {str(e)} \nRaw: {output[:100]}"}]
         
     except subprocess.TimeoutExpired:
         return [{"error": "Crawler timed out after 120 seconds."}]
@@ -1003,6 +1014,7 @@ elif st.session_state.page == "auto_browser":
                 with open(r"scan_ui.html", "r", encoding="utf-8") as f:
                     html_data = f.read()
                 html_data = html_data.replace("body{background:#02050d;", "body{background:transparent;")
+                html_data = html_data.replace("</body>", "<script>setTimeout(startScan, 300);</script></body>")
                 components.html(html_data, height=450, scrolling=False)
                 
                 # Step 3: Analyze with Gemini
