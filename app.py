@@ -52,14 +52,15 @@ def run_playwright_search():
     crawler_path = os.path.join(os.path.dirname(__file__), "crawler.py")
     
     try:
-        env = os.environ.copy()
-        env["PLAYWRIGHT_BROWSERS_PATH"] = "/opt/render/project/.playwright"
+        # env = os.environ.copy()
+        # env["PLAYWRIGHT_BROWSERS_PATH"] = "/opt/render/project/.playwright"
         result = subprocess.run(
             [sys.executable, crawler_path],
             capture_output=True,
             text=True,
-            timeout=120,
-            env=env 
+            timeout=120
+            # timeout=120,
+            # env=env
         )
 
         output = result.stdout.strip()
