@@ -41,10 +41,7 @@ def get_piracy_urls_from_gemini():
             return json.loads(text[start:end])
         else:
             raise ValueError("No JSON array found in Gemini response.")
-        # text = text.replace("```json", "").replace("```", "").strip()
-        # return json.loads(text)
     except Exception as e:
-        # Fallback list of publicly documented piracy sites (per RIAA/MPAA reports)
         return [
             {"title": "Stream2Watch (archived)", "url": "https://www.stream2watch.ws", "risk": "HIGH"},
             {"title": "Cricfree",                "url": "https://cricfree.sc",          "risk": "HIGH"},
@@ -57,7 +54,6 @@ def get_piracy_urls_from_gemini():
 def run():
     from playwright.sync_api import sync_playwright
 
-    # Step 1: Get URLs from Gemini
     piracy_sites = get_piracy_urls_from_gemini()
 
     scraped_data = []
@@ -66,9 +62,9 @@ def run():
         browser = p.chromium.launch(
           headless=True,
           args=[
-                "--disable-dev-shm-usage", # Overcomes limited resource space on Linux containers
-                "--no-sandbox",            # Required for many cloud environments
-                "--single-process",        # Forces all tabs to share one process (saves huge RAM)
+                "--disable-dev-shm-usage", 
+                "--no-sandbox",           
+                "--single-process",        
                 "--disable-gpu"
             ]
         )
@@ -80,7 +76,6 @@ def run():
             )
         )
 
-        # Tab 1 — YouTube search results page (stays open as reference)
         main_tab = context.new_page()
         main_tab.goto(
             "https://www.youtube.com/results?search_query=illegal+sports+streaming+piracy+sites",
@@ -88,7 +83,6 @@ def run():
             timeout=20000
         )
 
-        # Tabs 2-6 — one per piracy site, opened & closed in sequence
         for i, site in enumerate(piracy_sites[:5]):
             tab = context.new_page()
             snippet = "Could not retrieve page content."
@@ -109,10 +103,8 @@ def run():
                 "snippet": snippet
             })
 
-            # time.sleep(1.5)   
             tab.close()
 
-        # time.sleep(3.0)  
         browser.close()
 
     print(json.dumps(scraped_data, ensure_ascii=False))
