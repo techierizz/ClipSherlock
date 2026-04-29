@@ -47,8 +47,9 @@ def analyze_with_gemini(file_bytes, mime_type):
         return json.dumps({"error": str(e), "details": response.text if 'response' in locals() else ""})
 
 def run_playwright_search():
-    import subprocess, sys, os
+    import subprocess, sys, os, time
     import streamlit as st
+    # from streamlit.runtime.scriptrunner import get_script_run_ctx
     
     crawler_path = os.path.join(os.path.dirname(__file__), "crawler.py")
     
