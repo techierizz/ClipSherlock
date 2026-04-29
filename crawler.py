@@ -94,6 +94,7 @@ def run():
         for i, site in enumerate(piracy_sites[:3]):
             tab = context.new_page()
             snippet = "Could not retrieve page content."
+            exact_error = "Success - No errors"
             try:
                 tab.goto(site["url"], wait_until="domcontentloaded", timeout=8000)
                 para = tab.wait_for_selector("p", timeout=2000)
