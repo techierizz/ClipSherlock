@@ -10,7 +10,7 @@ import json
 import os
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
-# os.environ["PLAYWRIGHT_BROWSERS_PATH"] = "/opt/render/project/.playwright"
+os.environ["PLAYWRIGHT_BROWSERS_PATH"] = "/opt/render/project/.playwright"
 load_dotenv()
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
@@ -52,15 +52,14 @@ def run_playwright_search():
     crawler_path = os.path.join(os.path.dirname(__file__), "crawler.py")
     
     try:
-        # env = os.environ.copy()
-        # env["PLAYWRIGHT_BROWSERS_PATH"] = "/opt/render/project/.playwright"
+        env = os.environ.copy()
+        env["PLAYWRIGHT_BROWSERS_PATH"] = "/opt/render/project/.playwright"
         result = subprocess.run(
             [sys.executable, crawler_path],
             capture_output=True,
             text=True,
-            timeout=120
-            # timeout=120,
-            # env=env
+            timeout=120,
+            env=env
         )
 
         output = result.stdout.strip()
