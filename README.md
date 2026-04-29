@@ -49,6 +49,7 @@ Risk-based prioritization
 ---
 
 🚀 Key Features
+
 ✅ Multimodal AI fingerprinting (video + images)
 
 ✅ Detection of modified/edited content
@@ -68,6 +69,7 @@ Risk-based prioritization
 ---
 
 🆚 What Makes It Different?
+
 🔥 Goes beyond traditional hashing → detects derived content
 
 🧠 Uses AI reasoning, not just matching
@@ -79,6 +81,7 @@ Risk-based prioritization
 ---
 
 🏗️ Architecture
+
 Streamlit App (UI)
         ↓
 Firebase Auth
@@ -96,6 +99,7 @@ Dashboard + Visualization
 ---
 
 🛠️ Tech Stack
+
 🎯 Frontend - Streamlit (Web)
 
 ☁️ Backend & Cloud - Firebase Authentication , Firestore (real-time database) , Vercel (deployment)
@@ -103,20 +107,28 @@ Dashboard + Visualization
 🤖 AI Layer - Gemini API (design-ready)
 
 📊 Use Cases : 
+
 Sports leagues (NFL, FIFA, IPL)
+
 Broadcasting companies
+
 Athlete content protection (NIL rights)
+
 Media rights enforcement agencies
+
 and wide sources of sports media
 
 ---
 
 📈 Impact
+
 ⚡ 90% faster detection of unauthorized content
 
 💰 Reduced revenue loss from piracy
 
 🌍 Real-time global visibility of media misuse
+
+---
 
 🔮 Future Enhancements
 
@@ -137,9 +149,12 @@ and wide sources of sports media
 ---
 
 🔗 Links
+
 📂 GitHub Repo: https://github.com/techierizz/ClipSherlock
+
 🎥 Demo Video: https://drive.google.com/drive/folders/1sOsVwbggTw1RRxy7hvmr44w6hX4hMKFj?usp=sharing
-🌐 MVP / Prototype:
+
+🌐 MVP / Prototype: https://clipsherlock.onrender.com/
 
 ---
 
