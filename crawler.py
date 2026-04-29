@@ -94,11 +94,10 @@ def run():
             tab = context.new_page()
             snippet = "Could not retrieve page content."
             try:
-                tab.goto(site["url"], wait_until="domcontentloaded", timeout=15000)
-                tab.wait_for_timeout(500)        # let user see the tab
-                para = tab.query_selector("p")
+                tab.goto(site["url"], wait_until="domcontentloaded", timeout=8000)
+                para = tab.wait_for_selector("p", timeout=2000)
                 if para:
-                    snippet = para.inner_text()[:300]
+                    snippet = f"Site blocked."
             except Exception:
                 pass
 
