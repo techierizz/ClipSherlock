@@ -159,10 +159,9 @@ and wide sources of sports media
 ---
 
 👥  Team Slashers
-🌐  Hackathon - Google Solution Challenge 2026
-The Slashers
 
-Amrit Raj (Team Lead)
-⭐ Final Note
+🌐  Hackathon - Google Solution Challenge 2026
+
+---
 
 “We don’t just detect piracy—we understand, track, and act on it in real time.”
