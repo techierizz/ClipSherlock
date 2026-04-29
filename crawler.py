@@ -23,7 +23,7 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 
 def get_piracy_urls_from_gemini():
     """Ask Gemini for a list of known piracy site URLs to investigate."""
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={GEMINI_API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
     prompt = (
         "You are a digital forensics analyst. List exactly 5 well-known, publicly documented "
         "illegal sports streaming or media piracy websites (sites that have been reported by news "
