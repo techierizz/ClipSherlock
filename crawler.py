@@ -15,7 +15,6 @@ Strategy:
 
 import json, sys, time, os, requests
 from dotenv import load_dotenv
-os.system("playwright install chromium")
 load_dotenv()
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
