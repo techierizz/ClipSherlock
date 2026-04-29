@@ -19,7 +19,7 @@ def analyze_with_gemini(file_bytes, mime_type):
     if not GEMINI_API_KEY or GEMINI_API_KEY == "YOUR_API_KEY_HERE":
         return '{"error": "Please insert your Gemini API Key in the app.py code."}'
     
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={GEMINI_API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
     
     b64_data = base64.b64encode(file_bytes).decode("utf-8")
     
@@ -93,7 +93,7 @@ def analyze_links_with_gemini(scraped_data):
     if not GEMINI_API_KEY or GEMINI_API_KEY == "YOUR_API_KEY_HERE":
         return '{"error": "Please insert your Gemini API Key in the app.py code."}'
     
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={GEMINI_API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
     
     prompt = f"""
     You are a cybersecurity threat intelligence analyst for SportsGuardian AI. 
