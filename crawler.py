@@ -57,6 +57,7 @@ def get_piracy_urls_from_gemini():
 
 def run():
     from playwright.sync_api import sync_playwright
+    from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
 
     # Step 1: Get URLs from Gemini
     piracy_sites = get_piracy_urls_from_gemini()
@@ -90,7 +91,7 @@ def run():
         )
 
         # Tabs 2-6 — one per piracy site, opened & closed in sequence
-        for i, site in enumerate(piracy_sites[:5]):
+        for i, site in enumerate(piracy_sites[:3]):
             tab = context.new_page()
             snippet = "Could not retrieve page content."
             try:
@@ -98,9 +99,12 @@ def run():
                 para = tab.wait_for_selector("p", timeout=2000)
                 if para:
                     snippet = para.inner_text()[:300]
+            except PlaywrightTimeoutError as e:
+                exact_error = "Playwright Timeout: The page took too long to load."
             except Exception as e:
-                snippet = f"Site blocked."
-                pass
+                exact_error = f"Hard Crash: {str(e)}"
+                # snippet = f"Site blocked."
+                # pass
 
             scraped_data.append({
                 "id":      i + 1,
@@ -108,6 +112,7 @@ def run():
                 "url":     site["url"],
                 "risk":    site.get("risk", "UNKNOWN"),
                 "snippet": snippet,
+                "debug_info": exact_error
             })
 
             # time.sleep(1.5)   
