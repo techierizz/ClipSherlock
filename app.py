@@ -64,15 +64,9 @@ def run_playwright_search():
 
         output = result.stdout.strip()
         
-     
-        # if result.returncode != 0:
-        #     error_msg = result.stderr.strip() or result.stdout.strip() or "Unknown subprocess error."
-        #     return [{"error": error_msg}]
-        
         if not output or not output.strip():
             return [{"error": f"Crawler returned no output. The browser may have been blocked. Errors: {errors[:200]}"}]
         
-        # return json.loads(output)
         try:
             start_idx = output.find('[')
             end_idx = output.rfind(']') + 1
@@ -128,7 +122,6 @@ def analyze_links_with_gemini(scraped_data):
     except Exception as e:
         return json.dumps({"error": str(e)})
 
-# ─── PAGE CONFIG ────────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="ClipSherlock",
     page_icon="🛡️",
@@ -136,12 +129,10 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ─── GLOBAL STYLES ──────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow+Condensed:wght@300;400;600;700&family=Share+Tech+Mono&display=swap');
 
-/* ── Root Variables ── */
 :root {
     --bg-deep:    #050911;
     --bg-panel:   #0a1020;
@@ -158,28 +149,23 @@ st.markdown("""
     --glow-orange:0 0 20px rgba(255,107,43,0.5);
 }
 
-/* ── Base ── */
 .stApp { background: var(--bg-deep) !important; font-family: 'Barlow Condensed', sans-serif; }
 html, body, [class*="css"] { background: var(--bg-deep) !important; color: var(--text-main) !important; }
 
-/* Hide Streamlit chrome */
 #MainMenu, footer, header { visibility: hidden; }
 .block-container { padding: 1rem 2rem !important; max-width: 100% !important; }
 .stDeployButton { display: none; }
 
-/* ── Sidebar ── */
 section[data-testid="stSidebar"] {
     background: var(--bg-panel) !important;
     border-right: 1px solid var(--border);
 }
 section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
 
-/* ── Custom scrollbar ── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg-deep); }
 ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 2px; }
 
-/* ── Header Bar ── */
 .top-header {
     display: flex; align-items: center; justify-content: space-between;
     padding: 0.75rem 1.5rem;
@@ -208,7 +194,6 @@ section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
 .pulse { animation: pulse 2s infinite; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); margin-right: 6px; }
 @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.3)} }
 
-/* ── Metric Cards ── */
 .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1rem; }
 .metric-card {
     background: var(--bg-card);
@@ -236,7 +221,6 @@ section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
 .metric-delta .up   { color: var(--green); }
 .metric-delta .down { color: var(--red); }
 
-/* ── Panel ── */
 .panel {
     background: var(--bg-card);
     border: 1px solid var(--border);
@@ -251,7 +235,6 @@ section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
     display: flex; align-items: center; gap: 8px;
 }
 
-/* ── Threat Table ── */
 .threat-row {
     display: flex; align-items: center; gap: 10px;
     padding: 0.6rem 0; border-bottom: 1px solid rgba(0,200,255,0.07);
@@ -274,7 +257,6 @@ section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
     background: rgba(0,200,255,0.1); border: 1px solid var(--cyan); color: var(--cyan);
 }
 
-/* ── Upload Zone ── */
 .upload-zone {
     border: 2px dashed rgba(0,200,255,0.3);
     border-radius: 6px; padding: 2.5rem;
@@ -286,7 +268,6 @@ section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
 .upload-title { font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; font-weight: 600; letter-spacing: 2px; }
 .upload-sub { font-size: 0.75rem; color: var(--text-dim); margin-top: 4px; }
 
-/* ── Scan Progress ── */
 .scan-step {
     display: flex; align-items: center; gap: 10px;
     padding: 0.5rem 0; font-size: 0.82rem;
@@ -299,7 +280,6 @@ section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
 .scan-wait   { color: var(--text-dim); }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
 
-/* ── Platform Grid ── */
 .platform-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
 .platform-tile {
     background: rgba(0,200,255,0.04);
@@ -311,7 +291,6 @@ section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
 .platform-name { font-weight: 600; }
 .platform-count { margin-left: auto; font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; color: var(--orange); }
 
-/* ── Buttons ── */
 .stButton > button {
     font-family: 'Rajdhani', sans-serif !important;
     font-weight: 600 !important; letter-spacing: 3px !important;
@@ -324,7 +303,6 @@ section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
 }
 .stButton > button:hover { transform: translateY(-1px) !important; box-shadow: var(--glow-cyan) !important; }
 
-/* ── Tabs ── */
 .stTabs [data-baseweb="tab-list"] {
     background: var(--bg-panel) !important;
     border-bottom: 1px solid var(--border) !important;
@@ -343,7 +321,6 @@ section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
 }
 .stTabs [data-baseweb="tab-panel"] { background: transparent !important; }
 
-/* ── Selectbox / Input ── */
 .stSelectbox > div > div, .stTextInput > div > div {
     background: var(--bg-panel) !important;
     border: 1px solid var(--border) !important;
@@ -351,7 +328,6 @@ section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
     border-radius: 3px !important;
 }
 
-/* ── Alert Feed ── */
 .alert-item {
     display: flex; align-items: flex-start; gap: 10px;
     padding: 0.6rem; margin-bottom: 0.4rem;
@@ -366,7 +342,6 @@ section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
 .alert-time { font-family: 'Share Tech Mono', monospace; font-size: 0.62rem; color: var(--text-dim); margin-top: 2px; }
 .alert-msg  { font-weight: 500; }
 
-/* ── Watermark Visual ── */
 .wm-visual {
     background: linear-gradient(135deg, #0a1628, #0d1f3c);
     border: 1px solid var(--border); border-radius: 4px;
@@ -381,7 +356,6 @@ section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
     pointer-events: none;
 }
 
-/* ── Hash Display ── */
 .hash-display {
     font-family: 'Share Tech Mono', monospace; font-size: 0.7rem;
     color: var(--green); background: rgba(0,255,136,0.05);
@@ -389,14 +363,11 @@ section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
     padding: 0.5rem; word-break: break-all; letter-spacing: 1px;
 }
 
-/* ── Score Ring ── */
 .score-ring-wrap { text-align: center; padding: 0.5rem; }
 .score-label { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; color: var(--text-dim); letter-spacing: 3px; margin-top: 4px; }
 
-/* ── Divider ── */
 hr { border-color: var(--border) !important; }
 
-/* ── Sidebar Nav ── */
 .nav-item {
     padding: 0.5rem 0.75rem; border-radius: 3px; cursor: pointer;
     font-family: 'Rajdhani', sans-serif; font-weight: 600;
@@ -411,7 +382,6 @@ hr { border-color: var(--border) !important; }
 </style>
 """, unsafe_allow_html=True)
 
-# ─── SESSION STATE ───────────────────────────────────────────────────────────────
 if "page" not in st.session_state:
     st.session_state.page = "dashboard"
 if "scan_running" not in st.session_state:
@@ -421,7 +391,6 @@ if "alerts" not in st.session_state:
 if "scan_done" not in st.session_state:
     st.session_state.scan_done = False
 
-# ─── MOCK DATA ───────────────────────────────────────────────────────────────────
 THREATS = [
     {"id":"TH-4421","title":"Champions League Final Highlights Repost","platform":"TikTok","severity":"critical","time":"2m ago","match":"99.2%","action":"FLAG"},
     {"id":"TH-4420","title":"NBA Playoffs Game 7 Clip – Unauthorized","platform":"YouTube","severity":"high","time":"8m ago","match":"96.7%","action":"FLAG"},
@@ -454,7 +423,6 @@ GEO_DATA = {
     "severity":["critical","medium","high","medium","high","medium","high","low","medium","high"]
 }
 
-# ─── SIDEBAR ─────────────────────────────────────────────────────────────────────
 with st.sidebar:
     st.markdown("""
     <div style='padding:1rem 0.5rem 1.5rem'>
@@ -492,7 +460,6 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
-# ─── HEADER ──────────────────────────────────────────────────────────────────────
 now = datetime.now().strftime("%H:%M:%S UTC")
 st.markdown(f"""
 <div class='top-header'>
@@ -510,11 +477,8 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# DASHBOARD PAGE
-# ═══════════════════════════════════════════════════════════════════════════════
 if st.session_state.page == "dashboard":
-    # Metric Cards
+    
     st.markdown("""
     <div class='metric-grid'>
         <div class='metric-card cyan'>
@@ -562,7 +526,6 @@ if st.session_state.page == "dashboard":
         st.markdown("<div class='panel'>", unsafe_allow_html=True)
         st.markdown("<div class='panel-title'>📊  Platform Distribution</div>", unsafe_allow_html=True)
 
-        # Donut chart
         labels = ["TikTok", "YouTube", "Instagram", "X/Twitter", "Facebook", "Telegram"]
         values = [1284, 967, 731, 512, 438, 291]
         colors = ["#00c8ff","#ff6b2b","#ff2b5e","#ffd600","#00ff88","#a855f7"]
@@ -582,7 +545,6 @@ if st.session_state.page == "dashboard":
         st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
         st.markdown("</div>", unsafe_allow_html=True)
 
-    # Threat Timeline
     col3, col4 = st.columns([2,1])
     with col3:
         st.markdown("<div class='panel'>", unsafe_allow_html=True)
@@ -622,9 +584,7 @@ if st.session_state.page == "dashboard":
             </div>""", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# SCAN & DETECT PAGE
-# ═══════════════════════════════════════════════════════════════════════════════
+
 elif st.session_state.page == "scan":
     col1, col2 = st.columns([3, 2])
 
@@ -660,7 +620,6 @@ elif st.session_state.page == "scan":
                 with open(r"scan_ui.html", "r", encoding="utf-8") as f:
                     html_data = f.read()
                 
-                # Make background transparent
                 html_data = html_data.replace("body{background:#02050d;", "body{background:transparent;")
                 components.html(html_data, height=450, scrolling=False)
                 
@@ -670,15 +629,12 @@ elif st.session_state.page == "scan":
                     
                     st.markdown("### 🧠 Gemini Analysis Results")
                     try:
-                        # Try to parse as JSON if the model returned JSON block
                         clean_text = result_text.replace('```json', '').replace('```', '').strip()
                         res_obj = json.loads(clean_text)
                         st.json(res_obj)
                     except:
-                        # Fallback to markdown text
                         st.markdown(f"<div style='background:rgba(0,200,255,0.05); padding:16px; border:1px solid rgba(0,200,255,0.2); border-radius:4px;'>{result_text}</div>", unsafe_allow_html=True)
         else:
-            # Show static placeholder animation when not running
             import streamlit.components.v1 as components
             with open(r"scan_ui.html", "r", encoding="utf-8") as f:
                 html_data = f.read()
@@ -731,9 +687,7 @@ elif st.session_state.page == "scan":
         st.markdown("<div class='score-label'>GEMINI VISION CONFIDENCE</div>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# MAP PAGE
-# ═══════════════════════════════════════════════════════════════════════════════
+
 elif st.session_state.page == "map":
     st.markdown("<div class='panel'>", unsafe_allow_html=True)
     st.markdown("<div class='panel-title'>🗺️  Global Infringement Heatmap</div>", unsafe_allow_html=True)
@@ -780,7 +734,6 @@ elif st.session_state.page == "map":
             </div>""", unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
-# ─── ALERTS PAGE ──────────────────────────────────────────────────────────────
 elif st.session_state.page == "alerts":
     col1, col2 = st.columns([2,1])
     with col1:
@@ -817,9 +770,7 @@ elif st.session_state.page == "alerts":
             </div>""", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# WATERMARKING PAGE
-# ═══════════════════════════════════════════════════════════════════════════════
+
 elif st.session_state.page == "watermark":
     col1, col2 = st.columns(2)
     with col1:
@@ -889,9 +840,7 @@ elif st.session_state.page == "watermark":
             </div>""", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# ANALYTICS PAGE
-# ═══════════════════════════════════════════════════════════════════════════════
+
 elif st.session_state.page == "analytics":
     st.markdown("""
     <div class='metric-grid'>
@@ -957,9 +906,6 @@ elif st.session_state.page == "analytics":
         st.plotly_chart(fig_rev, use_container_width=True, config={"displayModeBar":False})
         st.markdown("</div>", unsafe_allow_html=True)
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# SETTINGS PAGE
-# ═══════════════════════════════════════════════════════════════════════════════
 elif st.session_state.page == "settings":
     col1, col2 = st.columns(2)
     with col1:
@@ -988,7 +934,6 @@ elif st.session_state.page == "settings":
         st.markdown("<div style='color:#00ff88;font-size:0.75rem;margin-top:0.5rem'>✅ All services connected — latency: 12ms</div>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
-# ─── AUTO BROWSER PAGE ────────────────────────────────────────────────────────
 elif st.session_state.page == "auto_browser":
     st.markdown("<div class='panel'>", unsafe_allow_html=True)
     st.markdown("<div class='panel-title'>🌐  Autonomous Browser Execution</div>", unsafe_allow_html=True)
@@ -999,18 +944,16 @@ elif st.session_state.page == "auto_browser":
     </div>
     """, unsafe_allow_html=True)
     
-    # --- The Trigger Button ---
     run_crawler = st.button("🚀 INITIATE AUTONOMOUS BROWSER CRAWLER", use_container_width=True)
     
     if run_crawler:
         with st.spinner("🤖 Autonomous Agent spinning up headless Chrome instance & searching for piracy streams..."):
-            # Step 1: Run Playwright
+            
             scraped_results = run_playwright_search()
             
             if len(scraped_results) > 0 and "error" in scraped_results[0]:
                 st.error(f"Crawler Failed: {scraped_results[0]['error']}")
             else:
-                # Step 2: Show HTML Animation (simulating scanning)
                 import streamlit.components.v1 as components
                 with open(r"scan_ui.html", "r", encoding="utf-8") as f:
                     html_data = f.read()
@@ -1018,7 +961,6 @@ elif st.session_state.page == "auto_browser":
                 html_data = html_data.replace("</body>", "<script>setTimeout(startScan, 300);</script></body>")
                 components.html(html_data, height=800, scrolling=False)
                 
-                # Step 3: Analyze with Gemini
                 st.info("📡 Streams located. Sending payloads to Gemini AI for Threat Intelligence evaluation...")
                 gemini_eval = analyze_links_with_gemini(scraped_results)
                 
@@ -1034,7 +976,6 @@ elif st.session_state.page == "auto_browser":
                     st.json(scraped_results)
 
     else:
-        # Default state - just show the animation
         import streamlit.components.v1 as components
         with open(r"scan_ui.html", "r", encoding="utf-8") as f:
             html_data = f.read()
