@@ -64,7 +64,15 @@ def run():
     scraped_data = []
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
+        browser = p.chromium.launch(
+          headless=True,
+          args=[
+                "--disable-dev-shm-usage", # Overcomes limited resource space on Linux containers
+                "--no-sandbox",            # Required for many cloud environments
+                "--single-process",        # Forces all tabs to share one process (saves huge RAM)
+                "--disable-gpu"
+            ]
+        )
         context = browser.new_context(
             user_agent=(
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -87,7 +95,7 @@ def run():
             snippet = "Could not retrieve page content."
             try:
                 tab.goto(site["url"], wait_until="domcontentloaded", timeout=15000)
-                tab.wait_for_timeout(2000)        # let user see the tab
+                tab.wait_for_timeout(500)        # let user see the tab
                 para = tab.query_selector("p")
                 if para:
                     snippet = para.inner_text()[:300]
@@ -102,9 +110,10 @@ def run():
                 "snippet": snippet,
             })
 
-            time.sleep(1.5)    # brief pause so user can see the tab
+            # time.sleep(1.5)   
+            tab.close()
 
-        time.sleep(3.0)  # brief pause at the end so user can see all open tabs before closing
+        # time.sleep(3.0)  
         browser.close()
 
     print(json.dumps(scraped_data, ensure_ascii=False))
